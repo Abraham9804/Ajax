@@ -5,7 +5,7 @@ include('data_sys.php');
 
 $datos = array();
 
-$mostrarUsuarios = llamarUser($connection);
+$mostrarUsuarios = llamarUsers($connection);
 if($mostrarUsuarios->num_rows>0){
     while($rows = $mostrarUsuarios->fetch_assoc()){
         $datos[] = $rows;
@@ -15,3 +15,5 @@ if($mostrarUsuarios->num_rows>0){
     $error = ['error'=>true];
     echo json_encode($error);
 }
+
+$connection->close();

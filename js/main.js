@@ -2,15 +2,56 @@ const btnCargar = document.querySelector('#btn_cargar_usuarios')
 const errorBox = document.querySelector('#error_box')
 const loader = document.querySelector('.loader')
 const tabla = document.querySelector('#tabla')
+const formulario = document.querySelector('#formulario')
 
-let usrNombre
-let usrEdad
-let usrPais
-let usrCorreo
+
+
+formulario.addEventListener('submit', function(e){
+    agregarUsuarios(e)
+})
+
+function agregarUsuarios(e){
+    e.preventDefault()
+    
+    const usrNombre = document.querySelector('#nombre').value.trim()
+    const usrEdad = parseInt(document.querySelector('#edad').value.trim())
+    const usrPais = document.querySelector('#pais').value.trim()
+    const usrCorreo = document.querySelector('#correo').value.trim()
+    console.log(usrNombre, usrEdad, usrPais, usrCorreo)
+
+    formularioValido()
+}
+
+function formularioValido(){    
+    if(usrNombre == ''){
+        return false
+    }else if(isNaN(usrEdad)){
+        return false 
+    }else if(usrPais == ''){
+        return false
+    }else if(usrCorreo == ''){
+        return false
+    }
+    console.log(true)
+    return true
+    
+}
+
+
+
+
+
+
+
+
+
+
 
 btnCargar.addEventListener('click', function(){
     cargarUsuarios()
 })
+
+
 
 
 function cargarUsuarios(){
@@ -25,7 +66,6 @@ function cargarUsuarios(){
         }else{
             datos.forEach(persona => {
                 const row = document.createElement('tr')
-               
                 row.innerHTML = `
                     <td>${persona.nombre}</td>
                     <td>${persona.pais}</td>
@@ -37,7 +77,7 @@ function cargarUsuarios(){
             });
         }
     }
-    
+
     loader.classList.add('active')
 
     peticion.onreadystatechange = function(){
