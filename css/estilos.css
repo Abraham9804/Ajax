@@ -80,6 +80,16 @@ header button.active {
 	display: none;
 }
 
+.success_box.active{
+	background: #28B463;
+	color: #fff;
+	text-align: center;
+	padding: 5px 0;
+	font-size: 12px;
+	line-height: 12px;
+	display: none;
+}
+
 .error_box.active {
 	display: block;
 }
