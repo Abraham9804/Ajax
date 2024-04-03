@@ -13,6 +13,7 @@ formulario.addEventListener('submit', function(e){
 })
 
 
+//Funcion para crear nuevo usuario
 function agregarUsuarios(e){
     e.preventDefault()
     const peticion = new XMLHttpRequest()
@@ -130,15 +131,63 @@ function cargarUsuarios(){
 
             btnDelete.forEach(boton => {
                 boton.addEventListener('click', function(){
-                    const id = this.id
-                    const peticion = new XMLHttpRequest()
-                    peticion.open('POST','php/deleteUser.php')
-                    const parametros = "id=" +id
-                    peticion.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
-                    peticion.onload = function(){
-                        cargarUsuarios()
-                    }
-                    peticion.send(parametros)
+                    Swal.fire({
+                        title: "Esta seguro que desea eliminar?",
+                        text: "Los cambios no se podran revertir!",
+                        icon: "question",
+                        showCancelButton: true,
+                        confirmButtonColor: "#3085d6",
+                        cancelButtonColor: "#d33",
+                        cancelButtonText: "Cancelar",
+                        confirmButtonText: "Si, eliminar!"
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                            const id = this.id
+                            const peticion = new XMLHttpRequest()
+                            peticion.open('POST','php/deleteUser.php')
+                            const parametros = "id=" +id
+                            peticion.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+
+                            peticion.onload = function(){
+                                if(peticion.status >= 200 && peticion.status < 400){
+                                    const respuesta = JSON.parse(peticion.responseText)
+                                    if(respuesta.response){
+                                        Swal.fire({
+                                            title: "Eliminado!",
+                                            text: "El registro fue eliminado",
+                                            icon: "success",
+                                            confirmButtonColor: "#3085d6",
+                                            confirmButtonText: "Aceptar"
+                                          }).then((result) => {
+                                            if(result.isConfirmed){
+                                                cargarUsuarios()
+                                            }
+                                          })
+                                    }else{
+                                        Swal.fire({
+                                            title: "Error",
+                                            text: "Ocurrio un error al intentar eliminar la informacion",
+                                            icon: "error",
+
+                                          });
+                                    }
+
+                                }else{
+                                    Swal.fire({
+                                        title: "Error",
+                                        text: "Ocurrio un error general",
+                                        icon: "error",
+                                        confirmButtonColor: "#3085d6",
+                                        confirmButtonText: "Aceptar"
+                                      });
+                                }
+                            }
+                            peticion.send(parametros)
+
+
+                          
+                        }
+                      });
                 })
             })
         }
