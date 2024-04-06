@@ -38,6 +38,18 @@ header h1 {
 	border-radius:100px;
 }
 
+td button .btnEdit {
+	background-color: #F4D03F;
+	font-size:25px; 
+	color: black; 
+}
+
+.btnDelete{
+	font-size:20px; 
+	color: white; 
+	background: #943126;
+}
+
 header button.active {
 	display: inline-block;
 }
